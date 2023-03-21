@@ -1,0 +1,74 @@
+@page "/showprofile"
+
+@using Microsoft.Identity.Web
+@using Microsoft.Graph
+
+@inject Microsoft.Graph.GraphServiceClient GraphServiceClient
+@inject MicrosoftIdentityConsentAndConditionalAccessHandler ConsentHandler
+
+<h1>Me</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (user == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped table-condensed" style="font-family: monospace">
+        <tr>
+            <th>Property</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td>@user.DisplayName</td>
+        </tr>
+    </table>
+}
+
+@if (myEmails != null)
+{
+    <div>
+        <h2>EmailReader:</h2>
+        <table class="table table-striped table-condensed" style="font-family: monospace">
+            <tr>
+                <th>Time</th>
+                <th>From</th>
+                <th>Subject</th>
+            </tr>
+            @foreach (var message in myEmails)
+            {
+                <tr>
+                    <td>@message.ReceivedDateTime</td>
+                    <td>@message.From.EmailAddress.Name</td>
+                    <td>@message.Subject</td>
+                </tr>
+            }
+        </table>
+
+    </div>
+}
+@code {
+    User? user;
+    List<Message> myEmails = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            user = await GraphServiceClient.Me.Request().GetAsync();
+            var emails = await GraphServiceClient.Me.Messages.Request().GetAsync();
+            
+            foreach (var email in emails.CurrentPage.ToList().Take(3))
+            {
+                myEmails.Add(email);
+            }
+        }
+        catch (Exception ex)
+        {
+            ConsentHandler.HandleException(ex);
+        }
+    }
+}
