@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ASS2": {
+      "commandName": "GetImage",
+      "commandLineArgs": "--port 7009",
+      "launchBrowser": false
+    }
+  }
+}
