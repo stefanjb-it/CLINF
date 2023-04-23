@@ -148,7 +148,5 @@ class GraphHelper {
 	        }
         };
         var result = await _userClient.Me.Calendar.Events.PostAsync(requestBody);
-
-        Console.Write(result);
     }
 }

@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using Azure.Identity;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using System.Collections.Generic;
 
 namespace ASS2
 {
@@ -29,16 +28,10 @@ namespace ASS2
                 .AddEnvironmentVariables()
                 .Build();
 
-            var credential = new ChainedTokenCredential(
-                new ManagedIdentityCredential(string.IsNullOrEmpty(config["UserAssignedIdentity"])
-                    ? null 
-                    : config["UserAssignedIdentity"]),
-                new DefaultAzureCredential());
-
-            var blobServiceClient = new BlobServiceClient(new Uri(config["StorageAccountName"]), credential);
-            var containerClient = blobServiceClient.GetBlobContainerClient(config["ContainerName"]);
-            var blob = containerClient.GetBlobClient(config["ImageName"]);
-            var picture = blob.DownloadContent();
+            var blob = new BlobServiceClient(new Uri(config["StorageAccountName"]), new DefaultAzureCredential())
+                .GetBlobContainerClient(config["ContainerName"])
+                .GetBlobClient(config["ImageName"]);
+            var picture = await blob.DownloadContentAsync();
 
             return new FileContentResult(picture.Value.Content.ToArray(), "image/png");
         }
