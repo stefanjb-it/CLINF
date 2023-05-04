@@ -35,12 +35,14 @@ else
         <table class="table table-striped table-condensed" style="font-family: monospace">
             <tr>
                 <th>Team Name</th>
+                <th>Team Description</th>
                 <th>Team ID</th>
             </tr>
             @foreach (var group in teams)
             {
                 <tr>
                     <td>@group.DisplayName</td>
+                    <td>@group.Description</td>
                     <td>@group.Id</td>
                 </tr>
             }

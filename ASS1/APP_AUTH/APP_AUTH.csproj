@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UserSecretsId>65f67c03-c4d4-4aa3-89e6-b81fadb91a62</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.8.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+  <None Include="appsettings*.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
+</Project>
